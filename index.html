@@ -4,6 +4,8 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Buku Tamu Digital - Dispusip Boalemo</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
 body{min-height:100vh;background:#eef2f0;position:relative;overflow-x:hidden}
@@ -18,20 +20,18 @@ body{min-height:100vh;background:#eef2f0;position:relative;overflow-x:hidden}
 .hero-video{margin-top:12px;border-radius:20px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,0.18);background:white;border:3px solid white;position:relative}
 .hero-video video{width:100%;height:210px;object-fit:cover;display:block}
 .hero-video::after{content:'📚 Animasi Pelajar Membaca - Buku Tamu Hari Ini';position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(0,0,0,0.7),transparent);color:white;padding:14px 12px 10px;font-size:12px;font-weight:700;text-align:center}
-.card{background:white;border-radius:20px;padding:18px 16px;margin-top:14px;box-shadow:0 10px 35px rgba(0,0,0,0.12);border:1px solid rgba(0,0,0,0.04)}
+.card{background:white;border-radius:20px;padding:18px 16px;margin-top:14px;box-shadow:0 10px 35px rgba(0,0,0,0.12)}
 .card h2{color:#14532d;font-size:19px;font-weight:800}.sub{color:#6b7280;font-size:12px;margin-top:3px;margin-bottom:16px}
 label{font-size:12px;font-weight:700;color:#1f2937;display:block;margin-top:13px;margin-bottom:5px} label span{color:#ef4444}
-input,select,textarea{width:100%;padding:12px 14px;border:1.8px solid #e5e7eb;border-radius:12px;background:#f9fafb;font-size:14px;transition:0.2s}
-input:focus,select:focus,textarea:focus{outline:none;border-color:#15803d;background:white;box-shadow:0 0 0 3px rgba(21,128,61,0.12)}
+input,select,textarea{width:100%;padding:12px 14px;border:1.8px solid #e5e7eb;border-radius:12px;background:#f9fafb;font-size:14px}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .other{display:none;margin-top:8px}
 .sig-box{border:1.8px solid #e5e7eb;border-radius:12px;height:120px;background:#fcfdfc;margin-top:6px;overflow:hidden}
-.privacy{display:flex;gap:10px;background:#f3f4f6;padding:10px;border-radius:10px;margin-top:16px;font-size:11px;color:#374151;line-height:1.3}
-.privacy input{width:18px;height:18px;flex-shrink:0}
-.btn-submit{width:100%;background:linear-gradient(to bottom,#16a34a,#15803d);color:white;padding:14px;border:none;border-radius:14px;font-weight:800;font-size:15px;margin-top:16px;box-shadow:0 6px 18px rgba(21,128,61,0.35);cursor:pointer}
-.btn-submit:disabled{opacity:0.6}
+.privacy{display:flex;gap:10px;background:#f3f4f6;padding:10px;border-radius:10px;margin-top:16px;font-size:11px}
+.privacy input{width:18px;height:18px}
+.btn-submit{width:100%;background:linear-gradient(to bottom,#16a34a,#15803d);color:white;padding:14px;border:none;border-radius:14px;font-weight:800;font-size:15px;margin-top:16px;cursor:pointer}
 .success{display:none;text-align:center;padding:28px 18px}
-#adminPage{display:none;position:relative;z-index:3;max-width:900px;margin:0 auto;padding:14px}
+#adminPage{display:none;position:relative;z-index:3;max-width:960px;margin:0 auto;padding:14px}
 .table-wrap{overflow:auto;background:white;border-radius:16px;margin-top:14px}
 table{width:100%;border-collapse:collapse;font-size:12px}
 th{background:#0f5a2a;color:white;padding:10px;text-align:left;white-space:nowrap}
@@ -40,66 +40,44 @@ td{padding:9px 10px;border-bottom:1px solid #e5e7eb}
 </head>
 <body>
 <div class="bg-blur"></div><div class="bg-overlay"></div>
-
 <div id="publicPage">
-<div class="header">
-  <div class="logo-box"><img src="logo-boalemo.png" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Lambang_Kabupaten_Boalemo.png/400px-Lambang_Kabupaten_Boalemo.png'"></div>
-  <div class="header-text"><h1>BUKU TAMU DIGITAL</h1><p>Dinas Perpustakaan dan Kearsipan<br>Kabupaten Boalemo</p></div>
-</div>
+<div class="header"><div class="logo-box"><img src="logo-boalemo.png"></div><div class="header-text"><h1>BUKU TAMU DIGITAL</h1><p>Dinas Perpustakaan dan Kearsipan<br>Kab. Boalemo</p></div></div>
 <div class="container">
-  <div class="hero-video">
-    <video autoplay loop muted playsinline poster="bg-perpus.jpg">
-      <source src="animasi-perpus.mp4" type="video/mp4">
-    </video>
-  </div>
+  <div class="hero-video"><video autoplay loop muted playsinline poster="bg-perpus.jpg"><source src="animasi-perpus.mp4" type="video/mp4"></video></div>
   <div class="card" id="formCard">
     <h2>📝 Form Kunjungan</h2><p class="sub">Silakan lengkapi data kunjungan Anda</p>
     <label>Nama Lengkap <span>*</span></label><input id="nama" placeholder="Masukkan nama lengkap">
-    <label>Instansi / Asal <span>*</span></label><input id="instansi" placeholder="Contoh: SMAN 1 Tilamuta">
+    <label>Instansi / Asal <span>*</span></label><input id="instansi" placeholder="SMAN 1 Tilamuta">
     <div class="row">
       <div><label>No HP / WA <span>*</span></label><input id="hp" placeholder="08xxxxxxxxxx"></div>
-      <div>
-        <label>Keperluan <span>*</span></label>
-        <select id="keperluan"><option value="" disabled selected>-- Pilih --</option><option>Konsultasi</option><option>Menghadiri Rapat</option><option>Kegiatan Literasi</option><option>Pemustaka</option><option>Kegiatan Lainnya</option></select>
-        <input id="lainnya" class="other" placeholder="Tulis kegiatan lainnya...">
-      </div>
+      <div><label>Keperluan <span>*</span></label><select id="keperluan"><option value="" disabled selected>-- Pilih --</option><option>Konsultasi</option><option>Menghadiri Rapat</option><option>Kegiatan Literasi</option><option>Pemustaka</option><option>Kegiatan Lainnya</option></select><input id="lainnya" class="other" placeholder="Tulis kegiatan lainnya..."></div>
     </div>
     <label>Bidang / Pegawai yang Dituju</label><input id="bidang" placeholder="Contoh: Bidang Kearsipan">
     <label>Keterangan</label><textarea id="ket" rows="2" placeholder="Tulis keterangan..."></textarea>
-    <label>Tanda Tangan</label>
-    <div class="sig-box"><canvas id="sig" width="440" height="120" style="width:100%;height:100%"></canvas></div>
-    <div style="text-align:right;margin-top:6px"><button onclick="ctx.clearRect(0,0,440,120)" style="font-size:11px;padding:6px 12px;border:none;background:#f3f4f6;border-radius:8px">Hapus Tanda Tangan</button></div>
-    <div class="privacy"><input type="checkbox" id="setuju"><label for="setuju" style="margin:0;font-weight:400">Saya menyetujui data dikumpulkan untuk pencatatan kunjungan sesuai UU No.27 Tahun 2022.</label></div>
+    <label>Tanda Tangan</label><div class="sig-box"><canvas id="sig" width="440" height="120" style="width:100%;height:100%"></canvas></div>
+    <div style="text-align:right;margin-top:6px"><button onclick="ctx.clearRect(0,0,440,120)" style="font-size:11px;padding:6px 12px;border:none;background:#f3f4f6;border-radius:8px">Hapus</button></div>
+    <div class="privacy"><input type="checkbox" id="setuju"><label for="setuju" style="margin:0;font-weight:400">Saya menyetujui data dikumpulkan untuk pencatatan kunjungan.</label></div>
     <button class="btn-submit" id="btnKirim" onclick="kirim()">✓ Kirim Data Kunjungan</button>
   </div>
-  <div class="card success" id="ok">
-    <h2 style="color:#15803d">Terkirim ke Sheets ✓</h2><p style="font-size:13px;color:#6b7280;margin-top:8px">Kunjungan Anda tercatat di Google Sheets Dinas Perpustakaan Boalemo.</p>
-    <button onclick="location.reload()" style="margin-top:16px;width:100%;padding:12px;border:1px solid #15803d;background:white;color:#15803d;border-radius:10px;font-weight:700">Isi untuk Tamu Lain</button>
-  </div>
+  <div class="card success" id="ok"><h2 style="color:#15803d">Terkirim ke Sheets ✓</h2><p style="font-size:13px;color:#6b7280;margin-top:8px">Kunjungan tercatat.</p><button onclick="location.reload()" style="margin-top:16px;width:100%;padding:12px;border:1px solid #15803d;background:white;color:#15803d;border-radius:10px;font-weight:700">Isi untuk Tamu Lain</button></div>
 </div>
 </div>
-
 <div id="adminPage">
-  <div class="header"><div class="logo-box"><img src="logo-boalemo.png"></div><div class="header-text"><h1>ADMIN - LIVE SHEETS</h1><p>Rekap langsung dari Google Sheets</p></div></div>
-  <div class="container" style="max-width:900px">
+  <div class="header"><div class="logo-box"><img src="logo-boalemo.png"></div><div class="header-text"><h1>ADMIN - LAPORAN BUKU TAMU</h1><p>Live dari Google Sheets + Export PDF</p></div></div>
+  <div class="container" style="max-width:960px">
     <div class="card">
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <div style="background:#f0fdf4;padding:12px;border-radius:12px;flex:1;text-align:center"><b id="totalAll" style="font-size:20px">0</b><br><span style="font-size:11px">Total Pengunjung</span></div>
-        <div style="background:#eff6ff;padding:12px;border-radius:12px;flex:1;text-align:center"><b id="totalHari" style="font-size:20px">0</b><br><span style="font-size:11px">Hari Ini</span></div>
+      <div style="display:flex;gap:8px"><div style="background:#f0fdf4;padding:12px;border-radius:12px;flex:1;text-align:center"><b id="totalAll" style="font-size:20px">0</b><br><span style="font-size:11px">Total</span></div><div style="background:#eff6ff;padding:12px;border-radius:12px;flex:1;text-align:center"><b id="totalHari" style="font-size:20px">0</b><br><span style="font-size:11px">Hari Ini</span></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">
+        <button onclick="loadAdmin()" style="padding:10px;background:#0f5a2a;color:white;border:none;border-radius:10px;font-weight:700">🔄 Refresh</button>
+        <button onclick="exportPDF()" style="padding:10px;background:#dc2626;color:white;border:none;border-radius:10px;font-weight:700">📄 Export PDF Laporan</button>
+        <button onclick="exportExcel()" style="padding:10px;background:#15803d;color:white;border:none;border-radius:10px;font-weight:700">📥 Export Excel</button>
+        <button onclick="location.href=location.pathname" style="padding:10px;background:white;border:1px solid #e5e7eb;border-radius:10px;font-weight:700">🏠 Form Tamu</button>
       </div>
-      <div style="display:flex;gap:8px;margin-top:12px">
-        <button onclick="loadAdmin()" style="flex:1;padding:10px;background:#0f5a2a;color:white;border:none;border-radius:10px;font-weight:700">🔄 Refresh</button>
-        <button onclick="location.href=location.pathname" style="flex:1;padding:10px;background:white;border:1px solid #e5e7eb;border-radius:10px;font-weight:700">🏠 Form Tamu</button>
-      </div>
-      <input id="cari" placeholder="Cari nama / instansi / keperluan..." style="margin-top:12px" oninput="filterAdmin()">
-      <p style="font-size:10px;color:#9ca3af;margin-top:8px">Data diambil langsung dari: https://script.google.com/macros/s/AKfycbwcii6nj4ZDccBMU553Cm6DyzIO_o8TVLNoD2eZe_PvFEXGl8LJxxFj_eMOho3NT3uLBQ/exec</p>
+      <input id="cari" placeholder="Cari nama..." style="margin-top:12px" oninput="filterAdmin()">
     </div>
-    <div class="table-wrap">
-      <table><thead><tr><th>Tanggal</th><th>Nama</th><th>Instansi</th><th>HP</th><th>Keperluan</th><th>Bidang</th><th>Ket</th></tr></thead><tbody id="tbody"><tr><td colspan="7" style="padding:20px;text-align:center">Memuat...</td></tr></tbody></table>
-    </div>
+    <div class="table-wrap"><table><thead><tr><th>No</th><th>Tanggal</th><th>Nama</th><th>Instansi</th><th>HP</th><th>Keperluan</th><th>Bidang</th><th>Ket</th></tr></thead><tbody id="tbody"></tbody></table></div>
   </div>
 </div>
-
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwcii6nj4ZDccBMU553Cm6DyzIO_o8TVLNoD2eZe_PvFEXGl8LJxxFj_eMOho3NT3uLBQ/exec";
 const kep=document.getElementById('keperluan'),lain=document.getElementById('lainnya');
@@ -112,59 +90,23 @@ window.addEventListener('mouseup',()=>d=false);
 c.addEventListener('touchstart',e=>{d=true;ctx.beginPath();const p=pos(e);ctx.moveTo(p.x,p.y)});
 c.addEventListener('touchmove',e=>{if(!d)return;e.preventDefault();const p=pos(e);ctx.lineTo(p.x,p.y);ctx.stroke()},{passive:false});
 c.addEventListener('touchend',()=>d=false);
-
 function kirim(){
   const nama=document.getElementById('nama').value.trim();
   const inst=document.getElementById('instansi').value.trim();
   const hp=document.getElementById('hp').value.trim();
-  if(!nama||!inst||!hp) return alert('Lengkapi Nama, Instansi, HP dulu');
-  if(!kep.value) return alert('Pilih keperluan dulu');
-  if(!document.getElementById('setuju').checked) return alert('Centang persetujuan dulu');
+  if(!nama||!inst||!hp) return alert('Lengkapi Nama, Instansi, HP');
+  if(!kep.value) return alert('Pilih keperluan');
+  if(!document.getElementById('setuju').checked) return alert('Centang persetujuan');
   const btn=document.getElementById('btnKirim'); btn.innerText='Mengirim ke Sheets...'; btn.disabled=true;
-  const payload={
-    tanggal:new Date().toLocaleString('id-ID',{dateStyle:'full',timeStyle:'short'}),
-    nama, instansi:inst, hp,
-    keperluan:kep.value,
-    lainnya:lain.value,
-    bidang:document.getElementById('bidang').value,
-    keterangan:document.getElementById('ket').value
-  };
-  fetch(SCRIPT_URL,{method:'POST', body:JSON.stringify(payload)})
- .then(r=>r.json())
- .then(res=>{
-    document.getElementById('formCard').style.display='none';
-    document.getElementById('ok').style.display='block';
-    window.scrollTo(0,0);
-  })
- .catch(err=>{
-    alert('Gagal konek ke Sheets. Pastikan Deploy > Anyone. Error: '+err);
-    btn.innerText='✓ Kirim Data Kunjungan'; btn.disabled=false;
-  });
+  const payload={tanggal:new Date().toLocaleString('id-ID',{dateStyle:'full',timeStyle:'short'}),nama,instansi:inst,hp,keperluan:kep.value,lainnya:lain.value,bidang:document.getElementById('bidang').value,keterangan:document.getElementById('ket').value};
+  fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify(payload)}).then(r=>r.json()).then(res=>{document.getElementById('formCard').style.display='none';document.getElementById('ok').style.display='block';}).catch(err=>{alert('Gagal: '+err);btn.innerText='✓ Kirim Data Kunjungan';btn.disabled=false;});
 }
-
-// ADMIN MODE?admin=boalemo2024
-let allData=[];
-const params=new URLSearchParams(location.search);
-if(params.get('admin')==='boalemo2024'){
-  document.getElementById('publicPage').style.display='none';
-  document.getElementById('adminPage').style.display='block';
-  loadAdmin();
-}
-function loadAdmin(){
-  document.getElementById('tbody').innerHTML='<tr><td colspan="7" style="padding:20px;text-align:center">Memuat dari Google Sheets...</td></tr>';
-  fetch(SCRIPT_URL).then(r=>r.json()).then(data=>{
-    allData=data.reverse();
-    const today=new Date().toLocaleDateString('id-ID');
-    document.getElementById('totalAll').innerText=data.length;
-    document.getElementById('totalHari').innerText=data.filter(x=>x.tanggal && x.tanggal.includes(today)).length;
-    filterAdmin();
-  }).catch(()=>{document.getElementById('tbody').innerHTML='<tr><td colspan="7" style="padding:20px;text-align:center;color:red">Gagal load. Buka Google Sheet, pastikan sheet tidak kosong.</td></tr>';});
-}
-function filterAdmin(){
-  const q=(document.getElementById('cari').value||'').toLowerCase();
-  const filtered=allData.filter(x=> ((x.nama||'')+(x.instansi||'')+(x.keperluan||'')).toLowerCase().includes(q));
-  document.getElementById('tbody').innerHTML=filtered.map(x=>`<tr><td style="white-space:nowrap">${x.tanggal||''}</td><td><b>${x.nama||''}</b></td><td>${x.instansi||''}</td><td>${x.hp||''}</td><td>${x.keperluan||''} ${x.lainnya||''}</td><td>${x.bidang||''}</td><td>${x.keterangan||''}</td></tr>`).join('') || '<tr><td colspan="7" style="text-align:center;padding:20px">Tidak ada data</td></tr>';
-}
+let allData=[];const params=new URLSearchParams(location.search);
+if(params.get('admin')==='boalemo2024'){document.getElementById('publicPage').style.display='none';document.getElementById('adminPage').style.display='block';loadAdmin();}
+function loadAdmin(){document.getElementById('tbody').innerHTML='<tr><td colspan="8" style="padding:20px;text-align:center">Memuat dari Google Sheets...</td></tr>';fetch(SCRIPT_URL).then(r=>r.json()).then(data=>{allData=data.reverse();const today=new Date().toLocaleDateString('id-ID');document.getElementById('totalAll').innerText=data.length;document.getElementById('totalHari').innerText=data.filter(x=>x.tanggal&&x.tanggal.includes(today)).length;filterAdmin();});}
+function filterAdmin(){const q=(document.getElementById('cari').value||'').toLowerCase();const filtered=allData.filter(x=> ((x.nama||'')+(x.instansi||'')+(x.keperluan||'')).toLowerCase().includes(q));document.getElementById('tbody').innerHTML=filtered.map((x,i)=>`<tr><td>${i+1}</td><td style="white-space:nowrap">${x.tanggal||''}</td><td><b>${x.nama||''}</b></td><td>${x.instansi||''}</td><td>${x.hp||''}</td><td>${x.keperluan||''} ${x.lainnya||''}</td><td>${x.bidang||''}</td><td>${x.keterangan||''}</td></tr>`).join('')||'<tr><td colspan="8" style="text-align:center;padding:20px">Tidak ada data</td></tr>';}
+function exportExcel(){if(!allData.length) return alert('Belum ada data');let csv="No,Tanggal,Nama,Instansi,HP,Keperluan,Bidang,Keterangan\n";allData.forEach((x,i)=>{csv+=`${i+1},"${x.tanggal}","${x.nama}","${x.instansi}","${x.hp}","${x.keperluan} ${x.lainnya||''}","${x.bidang}","${x.keterangan}"\n`});const blob=new Blob([csv],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`Buku-Tamu-Boalemo-${new Date().toISOString().slice(0,10)}.csv`;a.click();}
+function exportPDF(){if(!allData.length) return alert('Belum ada data untuk PDF');const { jsPDF } = window.jspdf;const doc=new jsPDF('landscape','mm','a4');doc.setFillColor(15,90,42);doc.rect(0,0,297,22,'F');doc.setFontSize(14);doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.text('BUKU TAMU DIGITAL - DINAS PERPUSTAKAAN DAN KEARSIPAN KAB. BOALEMO',14,13);doc.setFontSize(10);doc.setFont('helvetica','normal');doc.text(`Tanggal Cetak: ${new Date().toLocaleString('id-ID')} | Total: ${allData.length} pengunjung`,14,18);const rows=allData.map((x,i)=>[i+1,x.tanggal,x.nama,x.instansi,x.hp,(x.keperluan||'')+' '+(x.lainnya||''),x.bidang,x.keterangan]);doc.autoTable({startY:26,head:[['No','Tanggal','Nama','Instansi','HP','Keperluan','Bidang','Keterangan']],body:rows,theme:'grid',headStyles:{fillColor:[15,90,42],fontSize:8},bodyStyles:{fontSize:7}});const finalY=doc.lastAutoTable.finalY+10;doc.setFontSize(10);doc.setTextColor(0,0,0);doc.text('Mengetahui,',230,finalY);doc.text('Kepala Dinas Perpustakaan dan Kearsipan',230,finalY+6);doc.text('Kab. Boalemo',230,finalY+12);doc.text('(.....................................)',230,finalY+35);doc.save(`Laporan-Buku-Tamu-Boalemo-${new Date().toISOString().slice(0,10)}.pdf`);}
 </script>
 </body>
 </html>
