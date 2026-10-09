@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buku Tamu Digital - Kab. Boalemo</title>
+<style>
+  /* TEMA ANDROID BOALEMO */
+  *{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
+  body{background:#eef2f0;min-height:100vh}
+ .header{background:#15803d;color:white;padding:18px 16px 28px;border-radius:0 0 28px 28px;display:flex;align-items:center;gap:14px}
+ .header.logo-box{background:white;border-radius:14px;padding:5px;width:64px;height:64px;display:flex;align-items:center;justify-content:center}
+ .container{max-width:480px;margin:-18px auto 0;padding:0 16px}
+ .card{background:white;border-radius:24px;padding:20px;box-shadow:0 8px 30px rgba(0,0,0,0.08);margin-top:12px}
+  input,select,textarea{width:100%;padding:13px;border:1.8px solid #d1d5db;border-radius:14px;background:#f9fafb;margin-top:6px}
+  input:focus{border-color:#15803d;outline:none;background:white}
+ .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+ .camera-area{border:2px dashed #15803d;background:#f0fdf4;border-radius:16px;padding:12px;text-align:center}
+ .camera-preview{width:100%;height:180px;background:#000;border-radius:12px;display:none;object-fit:cover;margin-bottom:8px}
+ .btn{padding:10px 16px;border-radius:10px;border:none;font-weight:600;cursor:pointer}
+ .btn-green{background:#15803d;color:white}.btn-outline{border:1.5px solid #15803d;color:#15803d;background:white}
+ .btn-gray{background:#f3f4f6}.btn-submit{width:100%;background:#15803d;color:white;padding:16px;border:none;border-radius:16px;font-size:16px;font-weight:700;margin-top:18px}
+  label{font-size:13px;font-weight:600;color:#14532d;display:block;margin-top:14px}
+ .privacy{display:flex;gap:10px;background:#f9fafb;padding:12px;border-radius:12px;margin-top:18px;font-size:11px}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="logo-box"><img src="logo-boalemo.png" style="width:100%" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Lambang_Kabupaten_Boalemo.png/400px-Lambang_Kabupaten_Boalemo.png'"></div>
+  <div><h1 style="font-size:20px">Buku Tamu Digital</h1><p style="font-size:12px;opacity:0.9">Kabupaten Boalemo</p></div>
+</div>
+<div class="container">
+  <div class="card" id="formCard">
+    <h2 style="color:#14532d">Form Kunjungan</h2>
+    <p style="color:#6b7280;font-size:13px;margin-bottom:12px">Silakan lengkapi data kunjungan Anda</p>
+    <label>Nama Lengkap *</label><input placeholder="Masukkan nama lengkap">
+    <label>Instansi / Asal *</label><input placeholder="Contoh: SMAN 1 Tilamuta">
+    <div class="row"><div><label>No HP / WA *</label><input placeholder="08xxxxxxxxxx"></div><div><label>Keperluan *</label><select><option>Memuat...</option><option>Konsultasi</option><option>Koordinasi</option></select></div></div>
+    <label>Bidang / Pegawai yang Dituju</label><input placeholder="Contoh: Bidang Kearsipan">
+    <label>Keterangan</label><textarea rows="2" placeholder="Tulis keterangan..."></textarea>
+    <label>Foto Selfie</label>
+    <div class="camera-area">
+      <video id="video" class="camera-preview" autoplay playsinline></video>
+      <img id="fotoPreview" class="camera-preview">
+      <div><button class="btn btn-green" onclick="bukaKamera()">Buka Kamera</button> <button class="btn btn-outline" onclick="ambilFoto()">Ambil Foto</button> <button class="btn btn-gray" onclick="ulangiFoto()">Ulangi</button></div>
+    </div>
+    <label>Tanda Tangan</label><div style="border:1.8px solid #d1d5db;border-radius:14px;height:140px;background:#f9fafb;margin-top:6px"><canvas id="sigCanvas" width="400" height="140" style="width:100%;height:100%"></canvas></div>
+    <div style="text-align:right;margin-top:6px"><button class="btn btn-gray" onclick="hapusTtd()">Hapus Tanda Tangan</button></div>
+    <div class="privacy"><input type="checkbox" id="setuju"><label for="setuju" style="margin:0;font-weight:400">Saya menyetujui data pribadi saya dikumpulkan untuk keperluan pencatatan kunjungan sesuai UU No.27 Tahun 2022.</label></div>
+    <button class="btn-submit" onclick="document.getElementById('formCard').style.display='none';document.getElementById('successCard').style.display='block'">✓ Kirim Data Kunjungan</button>
+  </div>
+  <div class="card" id="successCard" style="display:none;text-align:center;padding:30px"><h2 style="color:#15803d">Terima Kasih ✓</h2><p style="color:#6b7280;margin-top:8px">Kunjungan Anda telah tercatat.</p><button class="btn btn-outline" style="width:100%;margin-top:16px" onclick="location.reload()">Isi untuk Tamu Lain</button></div>
+</div>
+<script>
+let stream=null;async function bukaKamera(){stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'}});let v=document.getElementById('video');v.srcObject=stream;v.style.display='block'}function ambilFoto(){let v=document.getElementById('video'),c=document.createElement('canvas'),img=document.getElementById('fotoPreview');c.width=v.videoWidth;c.height=v.videoHeight;c.getContext('2d').drawImage(v,0,0);img.src=c.toDataURL();img.style.display='block';v.style.display='none';stream.getTracks().forEach(t=>t.stop())}function ulangiFoto(){document.getElementById('fotoPreview').style.display='none';bukaKamera()}let canvas=document.getElementById('sigCanvas'),ctx=canvas.getContext('2d'),drawing=false;canvas.addEventListener('touchstart',e=>{drawing=true;let r=canvas.getBoundingClientRect();ctx.beginPath();ctx.moveTo(e.touches[0].clientX-r.left,e.touches[0].clientY-r.top)});canvas.addEventListener('touchmove',e=>{if(!drawing)return;e.preventDefault();let r=canvas.getBoundingClientRect();ctx.lineTo(e.touches[0].clientX-r.left,e.touches[0].clientY-r.top);ctx.stroke()},{passive:false});canvas.addEventListener('touchend',()=>drawing=false);function hapusTtd(){ctx.clearRect(0,0,400,140)}
+</script>
+</body>
+</html>
