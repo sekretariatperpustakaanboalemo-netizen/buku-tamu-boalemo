@@ -2,74 +2,106 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Buku Tamu Digital - Kab. Boalemo</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Buku Tamu Digital - Dispusip Boalemo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-  *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
-  body{background:#eef2f0;min-height:100vh;padding-bottom:30px}
-.header{background:#15803d;color:white;padding:18px 16px 32px;border-radius:0 0 28px 28px;display:flex;align-items:center;gap:14px}
-.logo-box{background:white;border-radius:14px;padding:6px;width:62px;height:62px;display:flex;align-items:center;justify-content:center}
-.container{max-width:480px;margin:-20px auto 0;padding:0 16px}
-.card{background:white;border-radius:24px;padding:22px 18px;box-shadow:0 8px 30px rgba(0,0,0,0.08);margin-top:12px}
-  input,select,textarea{width:100%;padding:13px 14px;border:1.8px solid #d1d5db;border-radius:14px;background:#f9fafb}
-  input:focus,select:focus,textarea:focus{outline:none;border-color:#15803d;background:white}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.btn{padding:10px 16px;border-radius:10px;border:none;font-weight:600;cursor:pointer}
-.btn-gray{background:#f3f4f6}.btn-outline{border:1.5px solid #15803d;color:#15803d;background:white}
-.btn-submit{width:100%;background:#15803d;color:white;padding:16px;border:none;border-radius:16px;font-size:16px;font-weight:700;margin-top:18px}
-  label{font-size:13px;font-weight:600;color:#14532d;display:block;margin-top:15px;margin-bottom:6px}
-.privacy{display:flex;gap:10px;background:#f9fafb;padding:12px;border-radius:12px;margin-top:18px;font-size:11px}
-.signature-area{border:1.8px solid #d1d5db;border-radius:14px;height:140px;background:#f9fafb;margin-top:8px}
-.other-input{display:none;margin-top:10px}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+body{min-height:100vh;background:#eef2f0;position:relative;overflow-x:hidden}
+.bg-blur{position:fixed;inset:0;z-index:0;background:url('bg-perpus.jpg') center/cover no-repeat;filter:blur(6px) brightness(0.85);transform:scale(1.05)}
+.bg-overlay{position:fixed;inset:0;z-index:1;background:linear-gradient(to bottom, rgba(255,255,255,0.65) 0%, rgba(245,241,232,0.85) 100%)}
+.header{position:relative;z-index:3;background:linear-gradient(135deg,#0f5a2a 0%,#15803d 100%);margin:10px;border-radius:18px;padding:14px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 8px 24px rgba(21,128,61,0.4)}
+.logo-box{width:58px;height:58px;background:white;border-radius:12px;padding:4px;flex-shrink:0;box-shadow:0 3px 10px rgba(0,0,0,0.2)}
+.logo-box img{width:100%;height:100%;object-fit:contain}
+.header-text h1{color:white;font-size:17px;font-weight:800;line-height:1.1;letter-spacing:0.3px}
+.header-text p{color:#dcfce7;font-size:11px;font-weight:600;line-height:1.3;margin-top:2px}
+.container{position:relative;z-index:3;max-width:480px;margin:0 auto;padding:0 14px 30px}
+.hero-video{margin-top:12px;border-radius:20px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,0.18);background:white;border:3px solid white;position:relative}
+.hero-video video{width:100%;height:210px;object-fit:cover;display:block}
+.hero-video::after{content:'📚 Animasi Pelajar Membaca - Buku Tamu Hari Ini';position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(0,0,0,0.7),transparent);color:white;padding:14px 12px 10px;font-size:12px;font-weight:700;text-align:center}
+.card{background:white;border-radius:20px;padding:18px 16px;margin-top:14px;box-shadow:0 10px 35px rgba(0,0,0,0.12);border:1px solid rgba(0,0,0,0.04)}
+.card h2{color:#14532d;font-size:19px;font-weight:800}.sub{color:#6b7280;font-size:12px;margin-top:3px;margin-bottom:16px}
+label{font-size:12px;font-weight:700;color:#1f2937;display:block;margin-top:13px;margin-bottom:5px} label span{color:#ef4444}
+input,select,textarea{width:100%;padding:12px 14px;border:1.8px solid #e5e7eb;border-radius:12px;background:#f9fafb;font-size:14px;transition:0.2s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#15803d;background:white;box-shadow:0 0 0 3px rgba(21,128,61,0.12)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.other{display:none;margin-top:8px}
+.sig-box{border:1.8px solid #e5e7eb;border-radius:12px;height:120px;background:#fcfdfc;margin-top:6px;overflow:hidden}
+.privacy{display:flex;gap:10px;background:#f3f4f6;padding:10px;border-radius:10px;margin-top:16px;font-size:11px;color:#374151;line-height:1.3}
+.privacy input{width:18px;height:18px;flex-shrink:0}
+.btn-submit{width:100%;background:linear-gradient(to bottom,#16a34a,#15803d);color:white;padding:14px;border:none;border-radius:14px;font-weight:800;font-size:15px;margin-top:16px;box-shadow:0 6px 18px rgba(21,128,61,0.35);cursor:pointer}
+.success{display:none;text-align:center;padding:28px 18px}
 </style>
 </head>
 <body>
+<div class="bg-blur"></div><div class="bg-overlay"></div>
+
 <div class="header">
-  <div class="logo-box"><img src="logo-boalemo.png" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Lambang_Kabupaten_Boalemo.png/400px-Lambang_Kabupaten_Boalemo.png'" style="width:100%"></div>
-  <div><h1 style="font-size:20px">Buku Tamu Digital</h1><p style="font-size:12px;opacity:0.9">Kabupaten Boalemo</p></div>
+  <div class="logo-box"><img src="logo-boalemo.png" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Lambang_Kabupaten_Boalemo.png/400px-Lambang_Kabupaten_Boalemo.png'"></div>
+  <div class="header-text"><h1>BUKU TAMU DIGITAL</h1><p>Dinas Perpustakaan dan Kearsipan<br>Kabupaten Boalemo</p></div>
 </div>
+
 <div class="container">
+  <div class="hero-video">
+    <video autoplay loop muted playsinline poster="bg-perpus.jpg">
+      <source src="animasi-perpus.mp4" type="video/mp4">
+      Browser kamu tidak support video.
+    </video>
+  </div>
+
   <div class="card" id="formCard">
-    <h2 style="color:#14532d">Form Kunjungan</h2>
-    <p style="color:#6b7280;font-size:13px;margin-bottom:12px">Silakan lengkapi data kunjungan Anda</p>
-    <label>Nama Lengkap *</label><input placeholder="Masukkan nama lengkap">
-    <label>Instansi / Asal *</label><input placeholder="Contoh: SMAN 1 Tilamuta">
+    <h2>📝 Form Kunjungan</h2>
+    <p class="sub">Silakan lengkapi data kunjungan Anda</p>
+
+    <label>Nama Lengkap <span>*</span></label><input id="nama" placeholder="Masukkan nama lengkap">
+    <label>Instansi / Asal <span>*</span></label><input id="instansi" placeholder="Contoh: SMAN 1 Tilamuta">
+
     <div class="row">
-      <div><label>No HP / WA *</label><input placeholder="08xxxxxxxxxx"></div>
+      <div><label>No HP / WA <span>*</span></label><input placeholder="08xxxxxxxxxx"></div>
       <div>
-        <label>Keperluan *</label>
+        <label>Keperluan <span>*</span></label>
         <select id="keperluan" required>
-          <option value="" disabled selected>-- Pilih Keperluan --</option>
-          <option>Konsultasi</option>
-          <option>Menghadiri Rapat</option>
-          <option>Kegiatan Literasi</option>
-          <option>Pemustaka</option>
-          <option>Kegiatan Lainnya</option>
+          <option value="" disabled selected>-- Pilih --</option>
+          <option value="Konsultasi">Konsultasi</option>
+          <option value="Menghadiri Rapat">Menghadiri Rapat</option>
+          <option value="Kegiatan Literasi">Kegiatan Literasi</option>
+          <option value="Pemustaka">Pemustaka</option>
+          <option value="Kegiatan Lainnya">Kegiatan Lainnya</option>
         </select>
-        <input type="text" id="keperluanLain" class="other-input" placeholder="Tulis kegiatan lainnya...">
+        <input id="lainnya" class="other" placeholder="Tulis kegiatan lainnya...">
       </div>
     </div>
+
     <label>Bidang / Pegawai yang Dituju</label><input placeholder="Contoh: Bidang Kearsipan">
     <label>Keterangan</label><textarea rows="2" placeholder="Tulis keterangan..."></textarea>
-    <label>Tanda Tangan (opsional)</label>
-    <div class="signature-area"><canvas id="sigCanvas" width="440" height="140" style="width:100%;height:100%"></canvas></div>
-    <div style="text-align:right;margin-top:6px"><button class="btn btn-gray" onclick="hapusTtd()">Hapus Tanda Tangan</button></div>
-    <div class="privacy"><input type="checkbox" id="setuju"><label for="setuju" style="margin:0;font-weight:400">Saya menyetujui data pribadi saya dikumpulkan sesuai UU No.27 Tahun 2022.</label></div>
-    <button class="btn-submit" onclick="kirimData()">✓ Kirim Data Kunjungan</button>
+
+    <label>Tanda Tangan</label>
+    <div class="sig-box"><canvas id="sig" width="440" height="120" style="width:100%;height:100%"></canvas></div>
+    <div style="text-align:right;margin-top:6px"><button onclick="ctx.clearRect(0,0,440,120)" style="font-size:11px;padding:6px 12px;border:none;background:#f3f4f6;border-radius:8px">Hapus Tanda Tangan</button></div>
+
+    <div class="privacy"><input type="checkbox" id="setuju"><label for="setuju" style="margin:0;font-weight:400">Saya menyetujui data dikumpulkan untuk pencatatan kunjungan sesuai UU No.27 Tahun 2022.</label></div>
+    <button class="btn-submit" onclick="kirim()">✓ Kirim Data Kunjungan</button>
   </div>
-  <div class="card" id="successCard" style="display:none;text-align:center;padding:30px"><h2 style="color:#15803d">Terima Kasih ✓</h2><p style="color:#6b7280;margin-top:8px">Kunjungan Anda telah tercatat.</p><button class="btn btn-outline" style="width:100%;margin-top:16px" onclick="location.reload()">Isi untuk Tamu Lain</button></div>
+
+  <div class="card success" id="ok">
+    <h2 style="color:#15803d">Terima Kasih ✓</h2>
+    <p style="font-size:13px;color:#6b7280;margin-top:8px">Kunjungan Anda tercatat di Dinas Perpustakaan dan Kearsipan Kab. Boalemo.</p>
+    <button onclick="location.reload()" style="margin-top:16px;width:100%;padding:12px;border:1px solid #15803d;background:white;color:#15803d;border-radius:10px;font-weight:700">Isi untuk Tamu Lain</button>
+  </div>
 </div>
+
 <script>
-const keperluanEl=document.getElementById('keperluan'), lainnyaEl=document.getElementById('keperluanLain');
-keperluanEl.addEventListener('change',function(){lainnyaEl.style.display=this.value==='Kegiatan Lainnya'?'block':'none'});
-const canvas=document.getElementById('sigCanvas'),ctx=canvas.getContext('2d');let drawing=false;
-function getPos(e){const r=canvas.getBoundingClientRect();const t=e.touches?e.touches[0]:e;return{x:t.clientX-r.left,y:t.clientY-r.top}}
-canvas.addEventListener('touchstart',e=>{drawing=true;ctx.beginPath();const p=getPos(e);ctx.moveTo(p.x,p.y)});
-canvas.addEventListener('touchmove',e=>{if(!drawing)return;e.preventDefault();const p=getPos(e);ctx.lineTo(p.x,p.y);ctx.stroke()},{passive:false});
-canvas.addEventListener('touchend',()=>drawing=false);
-function hapusTtd(){ctx.clearRect(0,0,440,140)}
-function kirimData(){if(!document.getElementById('setuju').checked){alert('Centang persetujuan dulu');return}document.getElementById('formCard').style.display='none';document.getElementById('successCard').style.display='block';}
+const kep=document.getElementById('keperluan'),lain=document.getElementById('lainnya');
+kep.addEventListener('change',()=>{lain.style.display=kep.value==='Kegiatan Lainnya'?'block':'none'});
+const c=document.getElementById('sig'),ctx=c.getContext('2d');let d=false;
+function pos(e){const r=c.getBoundingClientRect();const t=e.touches?e.touches[0]:e;return{x:(t.clientX-r.left)*(c.width/r.width),y:(t.clientY-r.top)*(c.height/r.height)}}
+c.addEventListener('mousedown',e=>{d=true;ctx.beginPath();const p=pos(e);ctx.moveTo(p.x,p.y)});
+c.addEventListener('mousemove',e=>{if(!d)return;const p=pos(e);ctx.lineTo(p.x,p.y);ctx.stroke()});
+window.addEventListener('mouseup',()=>d=false);
+c.addEventListener('touchstart',e=>{d=true;ctx.beginPath();const p=pos(e);ctx.moveTo(p.x,p.y)});
+c.addEventListener('touchmove',e=>{if(!d)return;e.preventDefault();const p=pos(e);ctx.lineTo(p.x,p.y);ctx.stroke()},{passive:false});
+c.addEventListener('touchend',()=>d=false);
+function kirim(){if(!document.getElementById('setuju').checked)return alert('Centang persetujuan dulu');if(!kep.value)return alert('Pilih keperluan dulu');document.getElementById('formCard').style.display='none';document.getElementById('ok').style.display='block';window.scrollTo(0,0);}
 </script>
 </body>
 </html>
